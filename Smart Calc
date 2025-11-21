@@ -1,217 +1,392 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smart Batch Calculator</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #f4f4f9, #e9efff);
-      margin: 0;
-      padding: 0;
-      color: #333;
-    }
-    header {
-      background: linear-gradient(90deg, #4f46e5, #3b82f6);
-      padding: 1.5rem;
-      text-align: center;
-      color: white;
-      font-size: 1.8rem;
-      font-weight: bold;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    main {
-      max-width: 1100px;
-      margin: 2rem auto;
-      background: white;
-      padding: 2rem;
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-    }
-    h2 {
-      color: #4f46e5;
-      margin-bottom: 0.5rem;
-    }
-    .input-group {
-      margin: 1rem 0;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    label {
-      flex: 0 0 180px;
-      font-weight: 500;
-    }
-    input, select, button {
-      padding: 0.6rem 1rem;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      font-size: 1rem;
-      flex: 1;
-    }
-    input:focus, select:focus {
-      border-color: #3b82f6;
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
-    }
-    button {
-      background: linear-gradient(90deg, #3b82f6, #2563eb);
-      color: white;
-      border: none;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    button:hover {
-      background: linear-gradient(90deg, #2563eb, #1d4ed8);
-      transform: translateY(-1px);
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 1rem 0;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    }
-    th, td {
-      padding: 0.75rem 1rem;
-      border-bottom: 1px solid #eee;
-      text-align: center;
-    }
-    th {
-      background: #f9fafb;
-      font-weight: 600;
-      color: #374151;
-    }
-    tr:last-child td {
-      border-bottom: none;
-    }
-    .results {
-      background: #f9fafb;
-      padding: 1.5rem;
-      border-radius: 12px;
-      margin-top: 1.5rem;
-      box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);
-    }
-    .results h3 {
-      margin-top: 0;
-      color: #111827;
-    }
-    .add-btn {
-      margin-top: 0.5rem;
-      background: #10b981;
-    }
-    .add-btn:hover {
-      background: #059669;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Master Vehicle Search</title>
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            --bg: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-dark: #1f2937;
+            --text-light: #9ca3af;
+            --highlight: #fde047;
+            --success: #10b981;
+            --pdf-color: #ef4444;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            padding: 0;
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        .app-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- 1. DISTINCT HERO SECTION (Blue) --- */
+        .hero-section {
+            background: var(--primary-gradient);
+            padding: 40px 30px;
+            border-radius: 20px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2);
+            margin-bottom: 30px;
+        }
+
+        .hero-title {
+            margin: 0 0 10px 0;
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .hero-subtitle {
+            margin: 0 0 30px 0;
+            opacity: 0.9;
+            font-size: 1.05rem;
+        }
+
+        /* Search Input Wrapper */
+        .search-wrapper {
+            position: relative;
+            max-width: 550px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 16px 20px 16px 50px; /* Left padding for icon */
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-sizing: border-box; /* Critical for alignment */
+            outline: none;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            color: #9ca3af;
+        }
+
+        .btn-options {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin-top: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+        .btn-options:hover { background: rgba(255, 255, 255, 0.25); }
+
+        /* --- 2. SETTINGS PANEL --- */
+        .settings-panel {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: none; /* Hidden by default */
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .settings-panel.show { display: grid; }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: #4b5563;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* --- 3. RESULTS AREA (Cards) --- */
+        .results-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .data-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid #e5e7eb;
+            transition: transform 0.2s;
+        }
+        .data-card:hover {
+            transform: translateY(-2px);
+            border-color: #2563eb;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .row:last-child { border-bottom: none; }
+
+        .row-label { font-size: 0.85rem; font-weight: 600; color: #9ca3af; text-transform: uppercase; }
+        .row-value { font-weight: 600; color: #1f2937; text-align: right; }
+
+        .highlight { background-color: var(--highlight); padding: 0 2px; border-radius: 2px; }
+
+        /* --- BUTTON GROUP --- */
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .action-btn {
+            padding: 10px;
+            border: none;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn { background: #f3f4f6; color: #2563eb; }
+        .copy-btn:hover { background: #2563eb; color: white; }
+        .copy-btn.success { background: var(--success); color: white; }
+
+        .pdf-btn { background: #fef2f2; color: var(--pdf-color); }
+        .pdf-btn:hover { background: var(--pdf-color); color: white; }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #9ca3af;
+        }
+        .empty-state div { font-size: 3rem; margin-bottom: 10px; }
+
+        /* --- PRINT TEMPLATE (Hidden on screen) --- */
+        .print-container {
+            display: none;
+        }
+
+        /* --- PRINT MEDIA QUERY (The PDF Styling) --- */
+        @media print {
+            /* Hide the App UI */
+            .app-container { display: none !important; }
+            
+            /* Show the Print Template */
+            .print-container {
+                display: block !important;
+                font-family: 'Helvetica', 'Arial', sans-serif;
+                padding: 20px;
+                max-width: 100%;
+            }
+
+            /* Page Setup */
+            @page {
+                size: A4;
+                margin: 1cm;
+            }
+
+            /* PDF Header */
+            .pdf-header {
+                text-align: center;
+                border-bottom: 2px solid #1e40af;
+                padding-bottom: 15px;
+                margin-bottom: 30px;
+            }
+            .pdf-title { font-size: 24px; color: #1e40af; font-weight: bold; text-transform: uppercase; }
+            .pdf-meta { color: #666; font-size: 12px; margin-top: 5px; }
+
+            /* PDF Table */
+            .pdf-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 30px;
+            }
+            .pdf-table th, .pdf-table td {
+                padding: 12px 15px;
+                border-bottom: 1px solid #ddd;
+                text-align: left;
+            }
+            .pdf-table th {
+                background-color: #f8f9fa;
+                color: #444;
+                font-weight: bold;
+                width: 40%;
+                text-transform: uppercase;
+                font-size: 12px;
+            }
+            .pdf-table td {
+                color: #000;
+                font-weight: 600;
+                font-size: 14px;
+            }
+            
+            /* PDF Footer */
+            .pdf-footer {
+                margin-top: 50px;
+                text-align: center;
+                font-size: 10px;
+                color: #999;
+                border-top: 1px solid #eee;
+                padding-top: 10px;
+            }
+        }
+
+    </style>
 </head>
 <body>
-  <header>⚗️ Smart Batch Calculator</header>
-  <main>
-    <h2>Standard Batch Information</h2>
-    <table id="batchTable">
-      <thead>
-        <tr>
-          <th>Ingredient</th>
-          <th>Quantity (kg)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><input type="text" value="Ingredient 1"></td>
-          <td><input type="number" step="0.01" value="10"></td>
-        </tr>
-      </tbody>
+
+<!-- MAIN APP UI -->
+<div class="app-container">
+
+    <!-- HERO SECTION -->
+    <div class="hero-section">
+        <h1 class="hero-title">Master Vehicle Search</h1>
+        <p class="hero-subtitle">Find vehicle details instantly by ID, Machine No, or Name</p>
+        
+        <div class="search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" class="search-input" placeholder="Type to search (e.g. 7361, S 123)..." autocomplete="off">
+        </div>
+
+        <button class="btn-options" onclick="toggleSettings()">⚙️ Show/Hide Columns</button>
+    </div>
+
+    <!-- Settings (Hidden) -->
+    <div id="settingsPanel" class="settings-panel"></div>
+
+    <!-- Results List -->
+    <div id="resultsArea" class="results-list"></div>
+
+</div>
+
+<!-- HIDDEN PRINT TEMPLATE (Used for PDF Generation) -->
+<div id="printTemplate" class="print-container">
+    <div class="pdf-header">
+        <div class="pdf-title">Vehicle Information Report</div>
+        <div class="pdf-meta" id="printDate">Generated on: -</div>
+    </div>
+    
+    <table class="pdf-table">
+        <tbody id="printTableBody">
+            <!-- Rows will be injected here -->
+        </tbody>
     </table>
-    <button class="add-btn" onclick="addIngredient()">+ Add Ingredient</button>
 
-    <div class="input-group">
-      <label for="yield">Yield %:</label>
-      <input type="number" id="yield" value="95">
+    <div class="pdf-footer">
+        This is a computer-generated document. No signature is required.<br>
+        Master Vehicle Search System
     </div>
+</div>
 
-    <div class="input-group">
-      <label for="loss">Global Loss %:</label>
-      <input type="number" id="loss" value="2">
-    </div>
+<script>
+    // ======================================================
+    // 👇👇👇 STEP 1: PASTE HEADINGS HERE 👇👇👇
+    // ======================================================
+    const HEADINGS_HERE = `
+Vehicle no,Model,FUEL TYPE,Zone,Engine No,Chassis No,Category,Classification,Make,Registratio No,FITNESS Validity date,INSURANCE Validity Date,PUC VALIDITY,ROAD TAX Validity date,Horse Power,GPS Availability,Own By
+    `;
 
-    <div class="input-group">
-      <label for="packSize">Select Pack Size (kg):</label>
-      <select id="packSize">
-        <option value="0.25">0.25</option>
-        <option value="0.5">0.5</option>
-        <option value="1">1</option>
-      </select>
-      <button onclick="addPackSize()">+ Add Pack Size</button>
-    </div>
-
-    <div class="input-group">
-      <label for="numPacks">Required Finished Products:</label>
-      <input type="number" id="numPacks" value="100">
-    </div>
-
-    <button onclick="generateBatch()">🚀 Generate Batch</button>
-
-    <div class="results" id="results"></div>
-  </main>
-
-  <script>
-    function addIngredient() {
-      const table = document.getElementById("batchTable").getElementsByTagName("tbody")[0];
-      const row = table.insertRow();
-      const cell1 = row.insertCell(0);
-      const cell2 = row.insertCell(1);
-      cell1.innerHTML = '<input type="text" placeholder="Ingredient">';
-      cell2.innerHTML = '<input type="number" step="0.01" value="0">';
-    }
-
-    function addPackSize() {
-      const size = prompt("Enter new pack size in kg:");
-      if(size && !isNaN(size)) {
-        const select = document.getElementById("packSize");
-        const option = document.createElement("option");
-        option.value = size;
-        option.text = size;
-        select.add(option);
-      }
-    }
-
-    function generateBatch() {
-      const table = document.getElementById("batchTable");
-      const rows = table.getElementsByTagName("tbody")[0].rows;
-      const yieldVal = parseFloat(document.getElementById("yield").value) / 100;
-      const lossVal = parseFloat(document.getElementById("loss").value) / 100;
-      const packSize = parseFloat(document.getElementById("packSize").value);
-      const numPacks = parseInt(document.getElementById("numPacks").value);
-
-      let stdBatchTotal = 0;
-      let ingredients = [];
-
-      for(let i=0; i<rows.length; i++) {
-        const name = rows[i].cells[0].children[0].value;
-        const qty = parseFloat(rows[i].cells[1].children[0].value);
-        stdBatchTotal += qty;
-        ingredients.push({name, qty});
-      }
-
-      const requiredFinal = packSize * numPacks;
-      const effectiveFinal = requiredFinal / (yieldVal * (1 - lossVal));
-      const scaleFactor = effectiveFinal / stdBatchTotal;
-
-      let output = `<h3>📊 Generated Batch</h3>`;
-      output += `<p><b>Total Required Final Output:</b> ${requiredFinal.toFixed(2)} kg</p>`;
-      output += `<p><b>Effective Batch Size (with Yield & Loss):</b> ${effectiveFinal.toFixed(2)} kg</p>`;
-      output += `<table><thead><tr><th>Ingredient</th><th>New Quantity (kg)</th></tr></thead><tbody>`;
-
-      ingredients.forEach(ing => {
-        output += `<tr><td>${ing.name}</td><td>${(ing.qty * scaleFactor).toFixed(2)}</td></tr>`;
-      });
-
-      output += `</tbody></table>`;
-      document.getElementById("results").innerHTML = output;
-    }
-  </script>
-</body>
-</html>
+    // ======================================================
+    // 👇👇👇 STEP 2: PASTE DATA HERE 👇👇👇
+    // ======================================================
+    const DATA_HERE = `
+UP32VN7361,ZOR GRAND DV+,Elctricity,6,METMEAL03PMJ6908,MA1FL2DDUR3A17842,LMV,3W,Mahindra,UP32VN7361,23-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7365,ZOR GRAND DV+,Elctricity,4,METMEAL03PMJ6898,MA1FL2DDUR3A17827,LMV,3W,Mahindra,UP32VN7365,23-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7062,ZOR GRAND DV+,Elctricity,1,METMEAL03RAJ0034,MA1FL2DDUR3A17981,LMV,3W,Mahindra,UP32VN7062,21-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7090,ZOR GRAND DV+,Elctricity,1,METMEAL03RAJ0031,MA1FL2DDUR3A17982,LMV,3W,Mahindra,UP32VN7090,21-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7064,ZOR GRAND DV+,Elctricity,1,METMEAL03RAJ0072,MA1FL2DDUR3A18192,LMV,3W,Mahindra,UP32VN7064,21-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7063,ZOR GRAND DV+,Elctricity,3,METMEAL03RAJ0288,MA1FL2DDUR3A18225,LMV,3W,Mahindra,UP32VN7063,21-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7088,ZOR GRAND DV+,Elctricity,6,METMEAL03PMJ6502,MA1FL2DDUP3M26113,LMV,3W,Mahindra,UP32VN7088,21-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7065,ZOR GRAND DV+,Elctricity,1,METMEAL03RAJ0257,MA1FL2DDUR3A18256,LMV,3W,Mahindra,UP32VN7065,21-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7067,ZOR GRAND DV+,Elctricity,3,METMEAL03RAJ0237,MA1FL2DDUR3A18210,LMV,3W,Mahindra,UP32VN7067,21-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7066,ZOR GRAND DV+,Elctricity,1,METMEAL03RAJ0270,MA1FL2DDUR3A18224,LMV,3W,Mahindra,UP32VN7066,21-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7091,ZOR GRAND DV+,Elctricity,1,METMEAL03RAJ0298,MA1FL2DDUR3A18229,LMV,3W,Mahindra,UP32VN7091,21-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7089,ZOR GRAND DV+,Elctricity,3,METMEAL03RAJ0293,MA1FL2DDUR3A18255,LMV,3W,Mahindra,UP32VN7089,21-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7484,ZOR GRAND DV+,Elctricity,3,METMEAL03RBJ1052,MA1FL2DDUR3B19270,LMV,3W,Mahindra,UP32VN7484,25-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7496,ZOR GRAND DV+,Elctricity,6,METMEAL03RBJ0995,MA1FL2DDUR3B19253,LMV,3W,Mahindra,UP32VN7496,25-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7488,ZOR GRAND DV+,Elctricity,6,METMEAL03RAJ0870,MA1FL2DDUR3B19149,LMV,3W,Mahindra,UP32VN7488,25-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7189,ZOR GRAND DV+,Elctricity,6,METMEAL03RAJ0871,MA1FL2DDUR3B19148,LMV,3W,Mahindra,UP32VN7189,22-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN8267,ZOR GRAND DV+,Elctricity,4,METMEAL03RAJ0850,MA1FL2DDUR3B19145,LMV,3W,Mahindra,UP32VN8267,03-Mar-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN8578,ZOR GRAND DV+,Elctricity,6,METMEAL03RBJ0915,MA1FL2DDUR3B19154,LMV,3W,Mahindra,UP32VN8578,06-Mar-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN8264,ZOR GRAND DV+,Elctricity,7,METMEAL03RBJ0942,MA1FL2DDUR3B19177,LMV,3W,Mahindra,UP32VN8264,03-Mar-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN8280,ZOR GRAND DV+,Elctricity,3,METMEAL03RBJ0952,MA1FL2DDUR3B19178,LMV,3W,Mahindra,UP32VN8280,03-Mar-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN8257,ZOR GRAND DV+,Elctricity,6,METMEAL03RBJ0961,MA1FL2DDUR3B19185,LMV,3W,Mahindra,UP32VN8257,03-Mar-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7072,ZOR GRAND DV+,Elctricity,4,METMEAL03RBJ0966,MA1FL2DDUR3B19188,LMV,3W,Mahindra,UP32VN7072,21-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7487,ZOR GRAND DV+,Elctricity,1,METMEAL03RBJ0973,MA1FL2DDUR3B19189,LMV,3W,Mahindra,UP32VN7487,25-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7482,ZOR GRAND DV+,Elctricity,6,METMEAL03RBJ0969,MA1FL2DDUR3B19190,LMV,3W,Mahindra,UP32VN7482,25-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7068,ZOR GRAND DV+,Elctricity,4,METMEAL03RBJ1014,MA1FL2DDUR3B19192,LMV,3W,Mahindra,UP32VN7068,21-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7483,ZOR GRAND DV+,Elctricity,3,METMEAL03RBJ1021,MA1FL2DDUR3B19194,LMV,3W,Mahindra,UP32VN7483,25-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7486,ZOR GRAND DV+,Elctricity,1,METMEAL03RBJ1004,MA1FL2DDUR3B19195,LMV,3W,Mahindra,UP32VN7486,25-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7186,ZOR GRAND DV+,Elctricity,3,METMEAL03RBJ1011,MA1FL2DDUR3B19198,LMV,3W,Mahindra,UP32VN7186,22-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN8271,ZOR GRAND DV+,Elctricity,4,METMEAL03RBJ0992,MA1FL2DDUR3B19199,LMV,3W,Mahindra,UP32VN8271,03-Mar-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN8255,ZOR GRAND DV+,Elctricity,6,METMEAL03RBJ0983,MA1FL2DDUR3B19203,LMV,3W,Mahindra,UP32VN8255,03-Mar-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7103,ZOR GRAND DV+,Elctricity,3,METMEAL03RBJ0982,MA1FL2DDUR3B19204,LMV,3W,Mahindra,UP32VN7103,21-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN8253,ZOR GRAND DV+,Elctricity,6,METMEAL03RBJ1027,MA1FL2DDUR3B19206,LMV,3W,Mahindra,UP32VN8253,03-Mar-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN8269,ZOR GRAND DV+,Elctricity,4,METMEAL03RBJ1023,MA1FL2DDUR3B19208,LMV,3W,Mahindra,UP32VN8269,03-Mar-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7098,ZOR GRAND DV+,Elctricity,4,METMEAL03PMJ6351,MA1FL2DDUR3B19211,LMV,3W,Mahindra,UP32VN7098,21-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7105,ZOR GRAND DV+,Elctricity,6,METMEAL03RAJ0621,MA1FL2DDUR3B19213,LMV,3W,Mahindra,UP32VN7105,21-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7485,ZOR GRAND DV+,Elctricity,6,METMEAL03RBJ1037,MA1FL2DDUR3B19228,LMV,3W,Mahindra,UP32VN7485,25-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN8272,ZOR GRAND DV+,Elctricity,7,METMEAL03RBJ0976,MA1FL2DDUR3B19230,LMV,3W,Mahindra,UP32VN8272,03-Mar-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7079,ZOR GRAND DV+,Elctricity,3,METMEAL03RBJ0945,MA1FL2DDUR3B19236,LMV,3W,Mahindra,UP32VN7079,21-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN8254,ZOR GRAND DV+,Elctricity,7,METMEAL03RAJ0898,MA1FL2DDUR3B19242,LMV,3W,Mahindra,UP32VN8254,03-Mar-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN8268,ZOR GRAND DV+,Elctricity,6,METMEAL03RBJ0904,MA1FL2DDUR3B19243,LMV,3W,Mahindra,UP32VN8268,03-Mar-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7184,ZOR GRAND DV+,Elctricity,4,METMEAL03RBJ0906,MA1FL2DDUR3B19244,LMV,3W,Mahindra,UP32VN7184,22-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7497,ZOR GRAND DV+,Elctricity,4,METMEAL03RBJ0911,MA1FL2DDUR3B19245,LMV,3W,Mahindra,UP32VN7497,25-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN8260,ZOR GRAND DV+,Elctricity,6,METMEAL03RBJ0986,MA1FL2DDUR3B19248,LMV,3W,Mahindra,UP32VN8260,03-Mar-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7499,ZOR GRAND DV+,Elctricity,3,METMEAL03RBJ1065,MA1FL2DDUR3B19254,LMV,3W,Mahindra,UP32VN7499,25-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7187,ZOR GRAND DV+,Elctricity,3,METMEAL03RBJ1042,MA1FL2DDUR3B19258,LMV,3W,Mahindra,UP32VN7187,22-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7492,ZOR GRAND DV+,Elctricity,6,METMEAL03RBJ0947,MA1FL2DDUR3B19262,LMV,3W,Mahindra,UP32VN7492,25-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7102,ZOR GRAND DV+,Elctricity,1,METMEAL03RBJ0946,MA1FL2DDUR3B19263,LMV,3W,Mahindra,UP32VN7102,21-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7491,ZOR GRAND DV+,Elctricity,1,METMEAL03RBJ1048,MA1FL2DDUR3B19269,LMV,3W,Mahindra,UP32VN7491,25-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN8256,ZOR GRAND DV+,Elctricity,4,METMEAL03RBJ1130,MA1FL2DDUR3B19285,LMV,3W,Mahindra,UP32VN8256,03-Mar-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7073,ZOR GRAND DV+,Elctricity,6,METMEAL03RAJ0900,MA1FL2DDUR3B19164,LMV,3W,Mahindra,UP32VN7073,21-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7188,ZOR GRAND DV+,Elctricity,6,METMEAL03RAJ0831,MA1FL2DDUR3B19165,LMV,3W,Mahindra,UP32VN7188,22-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7082,ZOR GRAND DV+,Elctricity,4,METMEAL03RAJ0839,MA1FL2DDUR3B19167,LMV,3W,Mahindra,UP32VN7082,21-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7095,ZOR GRAND DV+,Elctricity,6,METMEAL03RBJ1082,MA1FL2DDUR3B19227,LMV,3W,Mahindra,UP32VN7095,21-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7104,ZOR GRAND DV+,Elctricity,1,METMEAL03RBJ1046,MA1FL2DDUR3B19229,LMV,3W,Mahindra,UP32VN7104,21-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN8287,ZOR GRAND DV+,Elctricity,4,METMEAL03RBJ0978,MA1FL2DDUR3B19235,LMV,3W,Mahindra,UP32VN8287,03-Mar-26,22-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7106,ZOR GRAND DV+,Elctricity,4,METMEAL03RBJ0943,MA1FL2DDUR3B19237,LMV,3W,Mahindra,UP32VN7106,21-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7096,ZOR GRAND DV+,Elctricity,6,METMEAL03RAJ0901,MA1FL2DDUR3B19241,LMV,3W,Mahindra,UP32VN7096,21-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7490,ZOR GRAND DV+,Elctricity,6,METMEAL03RBJ0987,MA1FL2DDUR3B19247,LMV,3W,Mahindra,UP32VN7490,25-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7075,ZOR GRAND DV+,Elctricity,1,METMEAL03RBJ1072,MA1FL2DDUR3B19255,LMV,3W,Mahindra,UP32VN7075,21-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7180,ZOR GRAND DV+,Elctricity,4,METMEAL03RBJ0949,MA1FL2DDUR3B19261,LMV,3W,Mahindra,UP32VN7180,22-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN8259,ZOR GRAND DV+,Elctricity,4,METMEAL03RBJ0956,MA1FL2DDUR3B19266,LMV,3W,Mahindra,UP32VN8259,03-Mar-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN8265,ZOR GRAND DV+,Elctricity,7,METMEAL03RBJ0951,MA1FL2DDUR3B19267,LMV,3W,Mahindra,UP32VN8265,03-Mar-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7078,ZOR GRAND DV+,Elctricity,1,METMEAL03RBJ1058,MA1FL2DDUR3B19272,LMV,3W,Mahindra,UP32VN7078,21-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN8263,ZOR GRAND DV+,Elctricity,4,METMEAL03RAJ0872,MA1FL2DDUR3B19163,LMV,3W,Mahindra,UP32VN8263,03-Mar-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN8262,ZOR GRAND DV+,Elctricity,3,METMEAL03RAJ0851,MA1FL2DDUR3B19146,LMV,3W,Mahindra,UP32VN8262,03-Mar-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7074,ZOR GRAND DV+,Elctricity,6,METMEAL03RBJ0990,MA1FL2DDUR3B19252,LMV,3W,Mahindra,UP32VN7074,21-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7071,ZOR GRAND DV+,Elctricity,6,METMEAL03RBJ1045,MA1FL2DDUR3B19260,LMV,3W,Mahindra,UP32VN7071,21-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN8270,ZOR GRAND DV+,Elctricity,7,METMEAL03RBJ1075,MA1FL2DDUR3B19277,LMV,3W,Mahindra,UP32VN8270,03-Mar-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7182,ZOR GRAND DV+,Elctricity,4,METMEAL03RBJ0937,MA1FL2DDUR3B19287,LMV,3W,Mahindra,UP32VN7182,22-Feb-26,15-Feb-26,NA,LTT,12 KW,YES,LSA
+UP32VN7093,ZOR GRAND DV+,Elctricity,6,METMEAL03RAJ0504,MA1FL2DDUR3B19239,LMV,3W,Mahindra,UP32VN7093,21-Feb-26,15-Feb-26
